@@ -1,0 +1,114 @@
+﻿@model Nyma.Domain.ViewModels.CustomerLogo.CreateOrEditCustomerLogoViewModel
+
+@{
+    bool isCreate = Model.Id == 0 ? true : false;
+}
+
+<form id="CustomerLogoForm" asp-area="Admin" asp-controller="CustomerLogo" asp-action="SubmitCustomerLogoFormModal"
+      data-ajax="true" data-ajax-begin="StartLoading()" data-ajax-success="CustomerLogoFormSubmited">
+
+    <div class="modal-header">
+        <h5 class="modal-title">@(isCreate ? "ایجاد" : "ویرایش")</h5>
+        <button type="button" class="close" data-dismiss="modal">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+
+    <div class="modal-body">
+
+        <div class="row">
+            <div class="col-12">
+
+                <input type="hidden" asp-for="Logo">
+
+                @if (!isCreate)
+                {
+                    <input type="hidden" asp-for="Id" />
+                }
+
+                <div class="form-group">
+                    <label asp-for="Link"></label>
+                    <div class="controls">
+                        <input type="text" asp-for="Link" class="form-control">
+                    </div>
+                    <span asp-validation-for="Link" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Order"></label>
+                    <div class="controls">
+                        <input type="number" asp-for="Order" class="form-control">
+                    </div>
+                    <span asp-validation-for="Order" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="LogoAlt"></label>
+                    <div class="controls">
+                        <textarea asp-for="LogoAlt" class="form-control"></textarea>
+                    </div>
+                    <span asp-validation-for="LogoAlt" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="logo">آواتار</label>
+                    <div class="controls">
+                        <input type="file" name="logo" id="logo" class="form-control" />
+                    </div>
+                    <span asp-validation-for="Logo" class="text-danger"></span>
+                </div>
+
+
+                <div>
+                    <button type="submit" class="btn btn-bold btn-pure float-right @(isCreate ? "btn-success" : "btn-warning")">@(isCreate ? "ایجاد" : "ویرایش")</button>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</form>
+
+
+<script>
+    $("#logo").change(function () {
+
+        const logoFile = $('input#logo')[0].files[0]
+
+        if (logoFile.name.split('.').pop() === "png" || logoFile.name.split('.').pop() === "jpeg" || logoFile.name.split('.').pop() === "jpg") {
+
+            const fd = new FormData();
+            fd.append("file", logoFile);
+
+            $.ajax({
+                type: "Post",
+                url: "/Admin/CustomerLogo/UploadCustomerLogoImageAjax",
+                enctype: "multipart/form-data",
+                data: fd,
+                beforeSend: function () {
+                    ShowMessage("اعلان", "لطفا تا انتهای بارگذاری صبر کنید ...", "info")
+                },
+                success: function (response) {
+                    if (response.status === "Success") {
+                        ShowMessage("اعلان", "فایل مورد نظر با موفقیت بارگذاری شد .", "success");
+                        $("#Logo").val(response.imageName);
+                    }
+                    else if (response.status === "Error") {
+                        ShowMessage("خطا", "فرمت فایل باید jpeg ، jpeg یا png باشد", "error")
+                    }
+                },
+                error: function () {
+                    ShowMessage("خطا", "در بارگذاری فایل خطایی رخ داده است .", "error")
+                },
+                cache: false,
+                contentType: false,
+                processData: false
+            })
+        }
+        else {
+            ShowMessage("خطا", "فرمت فایل باید jpeg ، jpeg یا png باشد", "error")
+        }
+    });
+</script>

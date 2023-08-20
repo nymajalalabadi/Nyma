@@ -1,0 +1,52 @@
+﻿@model Nyma.Domain.ViewModels.User.LoginUserViewModel
+
+@{
+    ViewData["Title"] = "Login";
+}
+
+@*@section Script{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <partial name="_CaptchaScriptPartial" />
+
+}*@
+
+<div class="section mt-0">
+    <h1 class="title title--h1 title__separate">لاگین</h1>
+</div>
+
+<br />
+
+<h2 class="title title--h2">ورود به سایت</h2>
+
+<form class="contact-form" asp-controller="Home" asp-action="Login" method="post">
+    <div class="row">
+
+        <div class="form-group col-12 col-md-12">
+            <i class="font-icon icon-user"></i>
+            <input asp-for="UserName" class="input input__icon form-control" placeholder="نام کابری">
+            <span class="text-danger" asp-validation-for="UserName"></span>
+        </div>
+
+        <div class="form-group col-12 col-md-12">
+            <i class="font-icon icon-lock"></i>
+            <input asp-for="Password" class="input input__icon form-control" placeholder="رمز عبور" />
+            <span class="text-danger" asp-validation-for="Password"></span>
+        </div>
+
+        <div class="form-group col-12 col-md-12">
+            <label><input asp-for="RememberMe" type="checkbox" name="">  مرا بخاطر بسپار </label>
+        </div>
+
+    </div>
+
+    <div class="row mb-5">
+        <div class="col-12 col-md-12 order-1 order-md-2 text-left">
+            <button type="submit" class="btn"><i class="font-icon icon-send"></i>ورود به سایت</button>
+        </div>
+    </div>
+
+    <div class="row mb-5"></div>
+
+</form>
+

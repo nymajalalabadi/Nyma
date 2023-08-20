@@ -1,0 +1,72 @@
+﻿@model List<ThingIDoListViewModel>
+@using Nyma.Domain.ViewModels.ThingIDo
+
+@{
+    ViewData["Title"] = "لیست کارهایی که انجام میدهم";
+}
+
+
+<div class="content-header">
+    <div class="d-flex align-items-center">
+        <div class="mr-auto">
+            <h3 class="page-title">@ViewData["Title"]</h3>
+        </div>
+        <div class="right-title">
+            <div class="right-title">
+                <button type="button" onclick="LoadThingIDoFormModal(0)" class="btn btn-circle btn-success mb-5"><i class="mdi mdi-plus"></i></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Main content -->
+<section class="content">
+
+    <div class="row">
+        <div class="col-12">
+            <div class="box">
+                <div class="box-body" id="data-table-box">
+                    <div class="table-responsive">
+                        <table class="table table-hover no-wrap data-table">
+                            <thead>
+                                <tr class="bg-secondary">
+                                    <th>عنوان</th>
+                                    <th>توضیحات</th>
+                                    <th>سایز عرض</th>
+                                    <th>الویت</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @if (Model != null && Model.Any())
+                                {
+                                    @foreach (ThingIDoListViewModel item in Model)
+                                    {
+                                        <tr id="ListItem-@(item.Id)">
+                                            <td>@item.Title</td>
+                                            <td>@item.Description</td>
+                                            <td>@item.ColumnLg</td>
+                                            <td>@item.Order</td>
+                                            <td>
+                                                <button onclick="LoadThingIDoFormModal(@item.Id)" class="btn btn-icon-circle btn-warning">
+                                                    <i class="ti-marker-alt"></i>
+                                                </button>
+                                                <button onclick="DeleteThingIDo(@item.Id)" class="btn btn-icon-circle btn-danger">
+                                                    <i class="ti-trash"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+<!-- /.content -->

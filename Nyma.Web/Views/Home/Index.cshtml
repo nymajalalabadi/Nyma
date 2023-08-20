@@ -1,0 +1,31 @@
+﻿@model Nyma.Domain.ViewModels.Page.IndexPageViewModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+<!-- About -->
+<div class="section mt-0">
+    <h1 class="title title--h1 title__separate">درمورد من</h1>
+    <div class="pt-2 pt-sm-3">
+        <p>نيما جلال آبادي  متولد ١٣٧٦ هستم. برنامه نویس ، توسعه دهنده  در حوزه ی وب و Asp.net Core. با توجه به رشته تحصیلی و علاقه زیادی که به برنامه نویسی داشتم از سال 97 فعالیت خودم رو آغاز کردم و از سال 98 به صورت حرفه ای در این حوزه فعالیت داشتم. من عاشق برنامه نویسی هستم و یه جمله ای هم دارم که میگه : Coding is the real magic that you can create what is in your mind. پس به دنیای جادوگری خوش امدید.
+        </p>
+    </div>
+</div>
+
+<!-- What -->
+@if (Model.ThingIDoList != null && Model.ThingIDoList.Any())
+{
+    <partial name="_ThingIDoPartial" model="@Model.ThingIDoList" />
+}
+
+@if (Model.CustomerFeedBackList != null && Model.CustomerFeedBackList.Any())
+{
+    <partial name="_CustomerFeedBackPartial" model="@Model.CustomerFeedBackList" />
+}
+
+
+@if (Model.CustomerLogoList != null && Model.CustomerLogoList.Any())
+{
+    <partial name="_CustomerLogoPartial" model="@Model.CustomerLogoList" />
+}
